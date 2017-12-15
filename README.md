@@ -1,1 +1,3 @@
 # secucen-study
+
+init git
