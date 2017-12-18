@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<pmd version="5.6.1" timestamp="2017-12-18T23:38:09.116">
-<file name="/Users/secucen/dev/code/secucen-study/step01/src/main/java/BookService.java">
-<violation beginline="87" endline="87" begincolumn="9" endcolumn="40" rule="CheckResultSet" ruleset="Basic" class="BookService" method="countAll" variable="rs" externalInfoUrl="https://pmd.github.io/pmd-5.6.1/pmd-java/rules/java/basic.html#CheckResultSet" priority="3">
-Always check the return of one of the navigation method (next,previous,first,last) of a ResultSet.
-</violation>
-</file>
-</pmd>
