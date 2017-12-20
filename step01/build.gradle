@@ -2,9 +2,9 @@ apply plugin: 'java'
 apply plugin: 'application'
 
 apply plugin: 'jacoco'
-apply plugin: 'checkstyle'
-apply plugin: 'pmd'
-apply plugin: 'findbugs'
+//apply plugin: 'checkstyle'
+//apply plugin: 'pmd'
+//apply plugin: 'findbugs'
 
 repositories {
     jcenter()
@@ -14,37 +14,63 @@ dependencies {
     compile 'com.google.guava:guava:23.0'
     compile group: 'org.mariadb.jdbc', name: 'mariadb-java-client', version: '2.2.0'
     testCompile 'junit:junit:4.12'
+//    testCompile group: 'org.assertj', name: 'assertj-core', version: '3.8.0'
 }
 
-pmd {
-    ignoreFailures = true
+//pmd {
+//    ignoreFailures = true
+//}
+//
+//pmdMain {
+//    reports {
+//        xml.destination = file("${pmd.reportsDir}/pmd.xml")
+//        html.enabled = true
+//        xml.enabled = true
+//    }
+//}
+//
+//findbugs {
+//    ignoreFailures = true
+//    toolVersion ='3.0.1'
+//}
+//
+//findbugsMain {
+//    reports {
+//        xml.enabled = true
+//        xml.destination = file("${findbugs.reportsDir}/findbugs.xml")
+//    }
+//}
+//
+//checkstyle {
+//    toolVersion = '8.2'
+//    ignoreFailures = true
+//    configFile = rootProject.file("secucen-checkstyle.xml")
+//    reportsDir = file("${buildDir}/checkstyle-output")
+//}
+//
+jacoco {
+    toolVersion = "0.7.9"
 }
-
-pmdMain {
+jacocoTestReport {
     reports {
-        xml.destination = file("${pmd.reportsDir}/pmd.xml")
+        xml.enabled = true
+        csv.enabled = false
+        html.enabled= true
+        html.destination file("${jacoco.reportsDir}/html")
+    }
+}
+
+test {
+    jacoco {
+        append = false
+        destinationFile = file("$buildDir/jacoco/jacoco.exec")
+        classDumpDir = file("$buildDir/jacoco/classpathdumps")
+    }
+    reports {
+        junitXml.enabled = true
         html.enabled = true
-        xml.enabled = true
     }
-}
-
-findbugs {
     ignoreFailures = true
-    toolVersion ='3.0.1'
-}
-
-findbugsMain {
-    reports {
-        xml.enabled = true
-        xml.destination = file("${findbugs.reportsDir}/findbugs.xml")
-    }
-}
-
-checkstyle {
-    toolVersion = '8.2'
-    ignoreFailures = true
-    configFile = rootProject.file("secucen-checkstyle.xml")
-    reportsDir = file("${buildDir}/checkstyle-output")
 }
 
 mainClassName = 'App'
