@@ -1,3 +1,5 @@
+package com.xyzlast.bookstore;
+
 import java.util.Date;
 
 public class Book {

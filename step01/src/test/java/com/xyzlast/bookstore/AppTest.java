@@ -1,3 +1,5 @@
+package com.xyzlast.bookstore;
+
 import org.junit.*;
 
 public class AppTest {

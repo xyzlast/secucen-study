@@ -1,3 +1,7 @@
+package com.xyzlast.bookstore;
+
+import com.xyzlast.bookstore.Book;
+import com.xyzlast.bookstore.BookService;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -5,7 +9,7 @@ import org.junit.Test;
 import java.util.Date;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class BookServiceTest {
 
@@ -13,7 +17,9 @@ public class BookServiceTest {
 
     @Before
     public void setUp() {
-        bookService = new BookService();
+        ConnectionFactory connectionFactory = new ConnectionFactory("org.mariadb.jdbc.Driver",
+            "jdbc:mysql://127.0.0.1:4306/bookstore", "root", "qwer12#$");
+        bookService = new BookService(connectionFactory);
     }
 
     private Book generateNewBook() {
@@ -32,7 +38,6 @@ public class BookServiceTest {
             bookService.add(generateNewBook());
             allBooks = bookService.getAll();
         }
-
         Book checkBook = allBooks.get(allBooks.size() - 1);
         Book getBook = bookService.get(checkBook.getId());
         Assert.assertEquals(checkBook.getId(), getBook.getId());
@@ -81,5 +86,24 @@ public class BookServiceTest {
         Assert.assertTrue(bookService.countAll() >= 10);
         bookService.deleteAll();
         Assert.assertEquals(bookService.countAll(), 0);
+    }
+
+    @Test
+    public void update() throws Exception {
+        long allCount = bookService.countAll();
+        if (allCount == 0) {
+            bookService.add(generateNewBook());
+        }
+        Book preBook = bookService.getAll().get(0);
+
+        String preName = preBook.getName();
+        preBook.setName(new StringBuilder(preName).reverse().toString());
+        String preComment = preBook.getComment();
+        preBook.setComment(new StringBuilder(preComment).reverse().toString());
+        bookService.update(preBook);
+
+        Book afterBook = bookService.get(preBook.getId());
+        assertThat(afterBook.getName()).isEqualTo(new StringBuilder(preName).reverse().toString());
+        assertThat(afterBook.getComment()).isEqualTo(new StringBuilder(preComment).reverse().toString());
     }
 }
