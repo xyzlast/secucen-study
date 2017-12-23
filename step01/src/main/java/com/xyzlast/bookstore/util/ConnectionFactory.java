@@ -1,4 +1,4 @@
-package com.xyzlast.bookstore;
+package com.xyzlast.bookstore.util;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

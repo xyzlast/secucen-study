@@ -1,8 +1,7 @@
 package com.xyzlast.bookstore.dao;
 
 import com.xyzlast.bookstore.BookServiceConfiguration;
-import com.xyzlast.bookstore.ConnectionFactory;
-import com.xyzlast.bookstore.dao.BookDao;
+import com.xyzlast.bookstore.util.ConnectionFactory;
 import org.junit.*;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

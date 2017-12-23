@@ -1,8 +1,9 @@
 package com.xyzlast.bookstore.dao;
 
 import com.xyzlast.bookstore.entity.Book;
-import com.xyzlast.bookstore.ConnectionFactory;
+import com.xyzlast.bookstore.util.ConnectionFactory;
 import com.xyzlast.bookstore.entity.BookStatus;
+import com.xyzlast.bookstore.util.SqlExecutor;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,7 +21,7 @@ public class BookDaoTest {
     public void setUp() {
         ConnectionFactory connectionFactory = new ConnectionFactory("org.mariadb.jdbc.Driver",
             "jdbc:mysql://127.0.0.1:4306/bookstore", "root", "qwer12#$");
-        bookDao = new BookDao(connectionFactory);
+        bookDao = new BookDao(new SqlExecutor(connectionFactory));
     }
 
     private Book generateNewBook() {

@@ -1,9 +1,8 @@
-package com.xyzlast.bookstore;
+package com.xyzlast.bookstore.util;
 
+import com.xyzlast.bookstore.util.ConnectionFactory;
 import org.junit.Test;
 
-import org.junit.*;
-import org.junit.runner.RunWith;
 import static org.assertj.core.api.Assertions.*;
 
 public class ConnectionFactoryTest {
