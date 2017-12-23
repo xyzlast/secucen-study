@@ -1,24 +1,21 @@
-package com.xyzlast.bookstore;
+package com.xyzlast.bookstore.dao;
 
+import com.xyzlast.bookstore.BookServiceConfiguration;
+import com.xyzlast.bookstore.ConnectionFactory;
+import com.xyzlast.bookstore.dao.BookDao;
 import org.junit.*;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import static org.assertj.core.api.Assertions.*;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.springframework.test.web.servlet.setup.MockMvcBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
-
 @SuppressWarnings("unused")
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = BookServiceConfiguration.class)
-public class SpringBookServiceTest2 {
+public class SpringBookDaoTest2 {
 
     @Autowired
     private ApplicationContext context;
@@ -34,8 +31,8 @@ public class SpringBookServiceTest2 {
         ConnectionFactory connectionFactory02 = (ConnectionFactory) context.getBean("connectionFactory");
         assertThat(connectionFactory01).isEqualTo(connectionFactory02);
 
-        BookService bookService = context.getBean(BookService.class);
-        assertThat(bookService).isNotNull();
+        BookDao bookDao = context.getBean(BookDao.class);
+        assertThat(bookDao).isNotNull();
     }
 
     @Test

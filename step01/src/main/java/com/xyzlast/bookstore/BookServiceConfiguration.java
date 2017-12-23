@@ -1,5 +1,6 @@
 package com.xyzlast.bookstore;
 
+import com.xyzlast.bookstore.dao.BookDao;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,8 +17,8 @@ public class BookServiceConfiguration {
     }
 
     @Bean
-    public BookService bookService() {
-        return new BookService(connectionFactory());
+    public BookDao bookService() {
+        return new BookDao(connectionFactory());
     }
 
     @Bean

@@ -1,14 +1,16 @@
-package com.xyzlast.bookstore;
+package com.xyzlast.bookstore.dao;
 
+import com.xyzlast.bookstore.BookServiceConfiguration;
+import com.xyzlast.bookstore.ConnectionFactory;
+import com.xyzlast.bookstore.dao.BookDao;
 import org.junit.*;
-import org.junit.runner.RunWith;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.GenericXmlApplicationContext;
 
 import static org.assertj.core.api.Assertions.*;
 
-public class SpringBookServiceTest {
+public class SpringBookDaoTest {
 
     @Test
     public void checkBeansWithXml() {
@@ -19,8 +21,8 @@ public class SpringBookServiceTest {
         ConnectionFactory connectionFactory02 = (ConnectionFactory) context.getBean("connectionFactory");
         assertThat(connectionFactory01).isEqualTo(connectionFactory02);
 
-        BookService bookService = context.getBean(BookService.class);
-        assertThat(bookService).isNotNull();
+        BookDao bookDao = context.getBean(BookDao.class);
+        assertThat(bookDao).isNotNull();
     }
 
     @Test
@@ -32,7 +34,7 @@ public class SpringBookServiceTest {
         ConnectionFactory connectionFactory02 = (ConnectionFactory) context.getBean("connectionFactory");
         assertThat(connectionFactory01).isEqualTo(connectionFactory02);
 
-        BookService bookService = context.getBean(BookService.class);
-        assertThat(bookService).isNotNull();
+        BookDao bookDao = context.getBean(BookDao.class);
+        assertThat(bookDao).isNotNull();
     }
 }
