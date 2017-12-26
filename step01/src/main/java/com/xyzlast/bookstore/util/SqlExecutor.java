@@ -1,8 +1,11 @@
 package com.xyzlast.bookstore.util;
 
+import com.xyzlast.bookstore.exception.DaoException;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class SqlExecutor {
 
@@ -12,25 +15,59 @@ public class SqlExecutor {
         this.connectionFactory = connectionFactory;
     }
 
-    public <T> T executeProcess(String sql, InnerPreparedStatementAndResultSetProcess<T> process) throws Exception {
-        Connection conn = connectionFactory.getConnection();
-        PreparedStatement st = conn.prepareStatement(sql);
-        process.doProcess(st);
-        ResultSet rs = st.executeQuery();
-        T result = process.convertFromResultSet(rs);
-        rs.close();
-        st.close();
-        conn.close();
-
-        return result;
+    public <T> T executeProcess(String sql, InnerPreparedStatementAndResultSetProcess<T> process) {
+        Connection conn = null;
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        try {
+            conn = connectionFactory.getConnection();
+            st = conn.prepareStatement(sql);
+            process.doProcess(st);
+            rs = st.executeQuery();
+            return process.convertFromResultSet(rs);
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        } finally {
+            closeSqlItems(conn, st, rs);
+        }
     }
 
-    public void executeProcess(String sql, InnerPreparedStatementProcess process) throws Exception {
-        Connection conn = connectionFactory.getConnection();
-        PreparedStatement st = conn.prepareStatement(sql);
-        process.doProcess(st);
-        st.execute();
-        st.close();
-        conn.close();
+    public void executeProcess(String sql, InnerPreparedStatementProcess process) {
+        Connection conn = null;
+        PreparedStatement st = null;
+        ResultSet rs = null;
+
+        try {
+            conn = connectionFactory.getConnection();
+            st = conn.prepareStatement(sql);
+            process.doProcess(st);
+            st.executeQuery();
+        } catch (SQLException ex) {
+            throw new DaoException(ex);
+        } finally {
+            closeSqlItems(conn, st, rs);
+        }
+
+    }
+
+    private void closeSqlItems(Connection conn, PreparedStatement st, ResultSet rs) {
+        if (rs != null) {
+            try {
+                rs.close();
+            } catch (SQLException ignored) {
+            }
+        }
+        if (st != null) {
+            try {
+                st.close();
+            } catch (SQLException ignored) {
+            }
+        }
+        if (conn != null) {
+            try {
+                conn.close();
+            } catch (SQLException ignored) {
+            }
+        }
     }
 }

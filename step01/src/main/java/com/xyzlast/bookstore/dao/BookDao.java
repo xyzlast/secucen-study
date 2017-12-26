@@ -19,16 +19,17 @@ public class BookDao implements BookStoreDao<Book, Integer> {
     }
 
     @Override
-    public int countAll() throws Exception {
+    public int countAll() {
         String sql = "select count(*) from books";
         return sqlExecutor.executeProcess(sql, new InnerPreparedStatementAndResultSetProcess<Integer>() {
             @Override
-            public void doProcess(PreparedStatement st) throws Exception {
+            public void doProcess(PreparedStatement st) throws SQLException {
 
             }
 
             @Override
-            public Integer convertFromResultSet(ResultSet rs) throws Exception {
+            public Integer convertFromResultSet(ResultSet rs) throws SQLException{
+                rs.next();
                 Long count = rs.getLong(1);
                 return count.intValue();
             }
@@ -36,22 +37,22 @@ public class BookDao implements BookStoreDao<Book, Integer> {
     }
 
     @Override
-    public void deleteAll() throws Exception {
+    public void deleteAll() {
         sqlExecutor.executeProcess("delete from books", (st) -> {
         });
     }
 
     @Override
-    public List<Book> getAll() throws Exception {
+    public List<Book> getAll() {
         String sql = "select id, name, author, status, rentUserId, comment, publishDate from books";
         return sqlExecutor.executeProcess(sql, new InnerPreparedStatementAndResultSetProcess<List<Book>>() {
             @Override
-            public void doProcess(PreparedStatement st) throws Exception {
+            public void doProcess(PreparedStatement st) throws SQLException {
 
             }
 
             @Override
-            public List<Book> convertFromResultSet(ResultSet rs) throws Exception {
+            public List<Book> convertFromResultSet(ResultSet rs) throws SQLException {
                 List<Book> books = new ArrayList<>();
                 while (rs.next()) {
                     books.add(convertBookFromResultSet(rs));
@@ -62,16 +63,16 @@ public class BookDao implements BookStoreDao<Book, Integer> {
     }
 
     @Override
-    public Book getById(Integer id) throws Exception {
+    public Book getById(Integer id) {
         String sql = "select id, name, author, publishDate, comment, status, rentUserId from books where id=?";
         return sqlExecutor.executeProcess(sql, new InnerPreparedStatementAndResultSetProcess<Book>() {
             @Override
-            public void doProcess(PreparedStatement st) throws Exception {
+            public void doProcess(PreparedStatement st) throws SQLException {
                 st.setInt(1, id);
             }
 
             @Override
-            public Book convertFromResultSet(ResultSet rs) throws Exception {
+            public Book convertFromResultSet(ResultSet rs) throws SQLException {
                 Book book = null;
                 if (rs.next()) {
                     book = convertBookFromResultSet(rs);
@@ -82,7 +83,7 @@ public class BookDao implements BookStoreDao<Book, Integer> {
     }
 
     @Override
-    public boolean update(Book book) throws Exception {
+    public boolean update(Book book) {
         sqlExecutor.executeProcess("update books set name = ?, author = ?, publishDate = ?, comment = ?, status = ?, rentUserId =? where id = ?", (st) -> {
             st.setString(1, book.getName());
             st.setString(2, book.getAuthor());
@@ -96,7 +97,7 @@ public class BookDao implements BookStoreDao<Book, Integer> {
     }
 
     @Override
-    public boolean add(Book book) throws Exception {
+    public boolean add(Book book) {
         sqlExecutor.executeProcess("insert books(name, author, publishDate, comment, status, rentUserId) values(?, ?, ?, ?, ?, ?)", (st) -> {
             st.setString(1, book.getName());
             st.setString(2, book.getAuthor());
@@ -110,14 +111,14 @@ public class BookDao implements BookStoreDao<Book, Integer> {
     }
 
     @Override
-    public boolean delete(Book entity) throws Exception {
+    public boolean delete(Book entity) {
         sqlExecutor.executeProcess("delete from books where id = ?", (st) -> {
             st.setInt(1, entity.getId());
         });
         return true;
     }
 
-    private Book convertBookFromResultSet(ResultSet rs) throws Exception {
+    private Book convertBookFromResultSet(ResultSet rs) throws SQLException {
         Book book = new Book();
         book.setId(rs.getInt("id"));
         book.setName(rs.getString("name"));

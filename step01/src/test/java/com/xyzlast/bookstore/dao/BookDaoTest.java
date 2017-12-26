@@ -36,7 +36,7 @@ public class BookDaoTest {
     }
 
     @Test
-    public void getTest() throws Exception {
+    public void getTest() {
         List<Book> allBooks = bookDao.getAll();
         if (allBooks.isEmpty()) {
             bookDao.add(generateNewBook());

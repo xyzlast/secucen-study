@@ -12,6 +12,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -33,11 +34,11 @@ public class SqlExecutorTest {
         String sql = "SELECT count(*) FROM books";
         InnerPreparedStatementAndResultSetProcess<Integer> process = new InnerPreparedStatementAndResultSetProcess<Integer>() {
             @Override
-            public void doProcess(PreparedStatement st) throws Exception {
+            public void doProcess(PreparedStatement st) throws SQLException {
 
             }
             @Override
-            public Integer convertFromResultSet(ResultSet rs) throws Exception {
+            public Integer convertFromResultSet(ResultSet rs) throws SQLException {
                 rs.next();
                 Long countValue = rs.getLong(1);
                 return countValue.intValue();
@@ -49,6 +50,12 @@ public class SqlExecutorTest {
 
     @Test
     public void executeProcessWithNoReturn() throws Exception {
+        String sql = "UPDATE books SET name = ? WHERE id = ?";
+        boolean progress = false;
+        sqlExecutor.executeProcess(sql, (st) -> {
+            st.setString(1, "CH_NAME");
+            st.setInt(2, 10);
+        });
 
     }
 }

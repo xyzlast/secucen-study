@@ -1,5 +1,6 @@
 package com.xyzlast.bookstore.util;
 
+import com.xyzlast.bookstore.exception.DaoException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -18,9 +19,12 @@ public class ConnectionFactory {
     @Getter
     private final String password;
 
-    public Connection getConnection() throws InstantiationException, IllegalAccessException,
-        ClassNotFoundException, SQLException {
-        Class.forName(this.driverName).newInstance();
-        return DriverManager.getConnection(this.connectionString, this.username, this.password);
+    public Connection getConnection()  {
+        try {
+            Class.forName(this.driverName).newInstance();
+            return DriverManager.getConnection(this.connectionString, this.username, this.password);
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException ex) {
+            throw new DaoException(ex);
+        }
     }
 }
