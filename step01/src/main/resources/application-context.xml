@@ -1,13 +1,13 @@
 <?xml version = "1.0" encoding = "UTF-8"?>
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
-    <bean id="connectionFactory" class="com.xyzlast.bookstore.ConnectionFactory">
+    <bean id="connectionFactory" class="com.xyzlast.bookstore.util.ConnectionFactory">
         <constructor-arg index="0" type="String" value="org.mariadb.jdbc.Driver"/>
         <constructor-arg index="1" type="String" value="jdbc:mysql://127.0.0.1:4306/bookstore"/>
         <constructor-arg index="2" type="String" value="root"/>
         <constructor-arg index="3" type="String" value="qwer12#$"/>
     </bean>
-    <bean id="bookService" class="com.xyzlast.bookstore.BookService">
+    <bean id="bookService" class="com.xyzlast.bookstore.dao.BookDao">
         <constructor-arg index="0" ref="connectionFactory"/>
     </bean>
 </beans>

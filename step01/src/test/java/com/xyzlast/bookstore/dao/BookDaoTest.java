@@ -1,7 +1,9 @@
-package com.xyzlast.bookstore;
+package com.xyzlast.bookstore.dao;
 
-import com.xyzlast.bookstore.Book;
-import com.xyzlast.bookstore.BookService;
+import com.xyzlast.bookstore.entity.Book;
+import com.xyzlast.bookstore.util.ConnectionFactory;
+import com.xyzlast.bookstore.entity.BookStatus;
+import com.xyzlast.bookstore.util.SqlExecutor;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -9,100 +11,93 @@ import org.junit.Test;
 import java.util.Date;
 import java.util.List;
 
+import static com.xyzlast.bookstore.dao.TestValueGenerator.generateNewBook;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class BookServiceTest {
+public class BookDaoTest {
 
-    private BookService bookService;
+    private BookDao bookDao;
 
     @Before
     public void setUp() {
         ConnectionFactory connectionFactory = new ConnectionFactory("org.mariadb.jdbc.Driver",
             "jdbc:mysql://127.0.0.1:4306/bookstore", "root", "qwer12#$");
-        bookService = new BookService(connectionFactory);
+        bookDao = new BookDao(new SqlExecutor(connectionFactory));
     }
 
-    private Book generateNewBook() {
-        Book newBook = new Book();
-        newBook.setName("newName01");
-        newBook.setAuthor("newAuthor01");
-        newBook.setComment("newComment01");
-        newBook.setPublishDate(new Date());
-        return newBook;
-    }
 
     @Test
-    public void getTest() throws Exception {
-        List<Book> allBooks = bookService.getAll();
+    public void getTest() {
+        List<Book> allBooks = bookDao.getAll();
         if (allBooks.isEmpty()) {
-            bookService.add(generateNewBook());
-            allBooks = bookService.getAll();
+            bookDao.add(TestValueGenerator.generateNewBook());
+            allBooks = bookDao.getAll();
         }
         Book checkBook = allBooks.get(allBooks.size() - 1);
-        Book getBook = bookService.get(checkBook.getId());
+        Book getBook = bookDao.getById(checkBook.getId());
         Assert.assertEquals(checkBook.getId(), getBook.getId());
     }
 
     @Test
     public void addTest() throws Exception {
-        long preCount = bookService.countAll();
+        long preCount = bookDao.countAll();
         Book newBook = generateNewBook();
-        bookService.add(newBook);
-        long afterCount = bookService.countAll();
+        bookDao.add(newBook);
+        long afterCount = bookDao.countAll();
 
         Assert.assertEquals("하나 더 추가 되었는지?", preCount + 1, afterCount);
     }
 
     @Test
     public void deleteTest() throws Exception {
-        List<Book> allBooks = bookService.getAll();
+        List<Book> allBooks = bookDao.getAll();
         if (allBooks.isEmpty()) {
-            bookService.add(generateNewBook());
-            allBooks = bookService.getAll();
+            bookDao.add(generateNewBook());
+            allBooks = bookDao.getAll();
         }
         Book checkBook = allBooks.get(allBooks.size() - 1);
-        bookService.delete(checkBook.getId());
+        bookDao.delete(checkBook);
 
-        Book deletedBook = bookService.get(checkBook.getId());
+        Book deletedBook = bookDao.getById(checkBook.getId());
         Assert.assertNull(deletedBook);
     }
 
     @Test
     public void getAll() throws Exception {
-        List<Book> allBooks = bookService.getAll();
-        long allCount = bookService.countAll();
+        List<Book> allBooks = bookDao.getAll();
+        long allCount = bookDao.countAll();
 
         Assert.assertEquals(allBooks.size(), allCount);
     }
 
     @Test
     public void deleteAll() throws Exception {
-        long allCount = bookService.countAll();
+        long allCount = bookDao.countAll();
         if (allCount <= 10) {
             for (int i = 0 ; i < 10 ; i++) {
-                bookService.add(generateNewBook());
+                bookDao.add(generateNewBook());
             }
         }
-        Assert.assertTrue(bookService.countAll() >= 10);
-        bookService.deleteAll();
-        Assert.assertEquals(bookService.countAll(), 0);
+        Assert.assertTrue(bookDao.countAll() >= 10);
+        bookDao.deleteAll();
+        Assert.assertEquals(bookDao.countAll(), 0);
     }
 
     @Test
     public void update() throws Exception {
-        long allCount = bookService.countAll();
+        long allCount = bookDao.countAll();
         if (allCount == 0) {
-            bookService.add(generateNewBook());
+            bookDao.add(generateNewBook());
         }
-        Book preBook = bookService.getAll().get(0);
+        Book preBook = bookDao.getAll().get(0);
 
         String preName = preBook.getName();
         preBook.setName(new StringBuilder(preName).reverse().toString());
         String preComment = preBook.getComment();
         preBook.setComment(new StringBuilder(preComment).reverse().toString());
-        bookService.update(preBook);
+        bookDao.update(preBook);
 
-        Book afterBook = bookService.get(preBook.getId());
+        Book afterBook = bookDao.getById(preBook.getId());
         assertThat(afterBook.getName()).isEqualTo(new StringBuilder(preName).reverse().toString());
         assertThat(afterBook.getComment()).isEqualTo(new StringBuilder(preComment).reverse().toString());
     }
