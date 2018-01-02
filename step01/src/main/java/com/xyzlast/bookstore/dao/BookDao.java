@@ -1,12 +1,13 @@
 package com.xyzlast.bookstore.dao;
 
 import com.xyzlast.bookstore.entity.Book;
-import com.xyzlast.bookstore.util.ConnectionFactory;
 import com.xyzlast.bookstore.entity.BookStatus;
 import com.xyzlast.bookstore.util.InnerPreparedStatementAndResultSetProcess;
 import com.xyzlast.bookstore.util.SqlExecutor;
 
-import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +29,7 @@ public class BookDao implements BookStoreDao<Book, Integer> {
             }
 
             @Override
-            public Integer convertFromResultSet(ResultSet rs) throws SQLException{
+            public Integer convertFromResultSet(ResultSet rs) throws SQLException {
                 rs.next();
                 Long count = rs.getLong(1);
                 return count.intValue();
@@ -84,7 +85,8 @@ public class BookDao implements BookStoreDao<Book, Integer> {
 
     @Override
     public boolean update(Book book) {
-        sqlExecutor.executeProcess("update books set name = ?, author = ?, publishDate = ?, comment = ?, status = ?, rentUserId =? where id = ?", (st) -> {
+        String sql = "update books set name = ?, author = ?, publishDate = ?, comment = ?, status = ?, rentUserId =? where id = ?";
+        sqlExecutor.executeProcess(sql, (st) -> {
             st.setString(1, book.getName());
             st.setString(2, book.getAuthor());
             st.setDate(3, new java.sql.Date(book.getPublishDate().getTime()));
@@ -98,7 +100,8 @@ public class BookDao implements BookStoreDao<Book, Integer> {
 
     @Override
     public boolean add(Book book) {
-        sqlExecutor.executeProcess("insert books(name, author, publishDate, comment, status, rentUserId) values(?, ?, ?, ?, ?, ?)", (st) -> {
+        String sql = "insert books(name, author, publishDate, comment, status, rentUserId) values(?, ?, ?, ?, ?, ?)";
+        sqlExecutor.executeProcess(sql, (st) -> {
             st.setString(1, book.getName());
             st.setString(2, book.getAuthor());
             java.sql.Date sqlDate = new java.sql.Date(book.getPublishDate().getTime());
@@ -112,7 +115,8 @@ public class BookDao implements BookStoreDao<Book, Integer> {
 
     @Override
     public boolean delete(Book entity) {
-        sqlExecutor.executeProcess("delete from books where id = ?", (st) -> {
+        String sql = "delete from books where id = ?";
+        sqlExecutor.executeProcess(sql, (st) -> {
             st.setInt(1, entity.getId());
         });
         return true;

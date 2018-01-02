@@ -28,14 +28,13 @@ public class SqlExecutor {
         } catch (SQLException e) {
             throw new DaoException(e);
         } finally {
-            closeSqlItems(conn, st, rs);
+            closeSqlObjects(conn, st, rs);
         }
     }
 
     public void executeProcess(String sql, InnerPreparedStatementProcess process) {
         Connection conn = null;
         PreparedStatement st = null;
-        ResultSet rs = null;
 
         try {
             conn = connectionFactory.getConnection();
@@ -45,12 +44,12 @@ public class SqlExecutor {
         } catch (SQLException ex) {
             throw new DaoException(ex);
         } finally {
-            closeSqlItems(conn, st, rs);
+            closeSqlObjects(conn, st, null);
         }
 
     }
 
-    private void closeSqlItems(Connection conn, PreparedStatement st, ResultSet rs) {
+    private void closeSqlObjects(Connection conn, PreparedStatement st, ResultSet rs) {
         if (rs != null) {
             try {
                 rs.close();

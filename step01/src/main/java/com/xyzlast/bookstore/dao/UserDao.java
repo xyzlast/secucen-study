@@ -2,7 +2,6 @@ package com.xyzlast.bookstore.dao;
 
 import com.xyzlast.bookstore.entity.User;
 import com.xyzlast.bookstore.util.InnerPreparedStatementAndResultSetProcess;
-import com.xyzlast.bookstore.util.InnerPreparedStatementProcess;
 import com.xyzlast.bookstore.util.SqlExecutor;
 
 import java.sql.PreparedStatement;
@@ -39,7 +38,8 @@ public class UserDao implements BookStoreDao<User, Integer> {
     @Override
     public void deleteAll() {
         String sql = "delete from users";
-        this.sqlExecutor.executeProcess(sql, (st) -> {});
+        this.sqlExecutor.executeProcess(sql, (st) -> {
+        });
     }
 
     @Override
@@ -50,6 +50,7 @@ public class UserDao implements BookStoreDao<User, Integer> {
             public void doProcess(PreparedStatement st) throws SQLException {
 
             }
+
             @Override
             public List<User> convertFromResultSet(ResultSet rs) throws SQLException {
                 List<User> users = new ArrayList<>();
@@ -82,17 +83,36 @@ public class UserDao implements BookStoreDao<User, Integer> {
 
     @Override
     public boolean update(User entity) {
-        return false;
+        String sql = "update users set name = ?, password = ?, point = ?, level = ? where id = ?";
+        sqlExecutor.executeProcess(sql, (st) -> {
+            st.setString(1, entity.getName());
+            st.setString(2, entity.getPassword());
+            st.setInt(3, entity.getPoint());
+            st.setInt(4, entity.getLevel());
+            st.setInt(5, entity.getId());
+        });
+        return true;
     }
 
     @Override
     public boolean add(User entity) {
-        return false;
+        String sql = "insert users(name, password, point, level) values(?, ?, ?, ?)";
+        sqlExecutor.executeProcess(sql, (st) -> {
+            st.setString(1, entity.getName());
+            st.setString(2, entity.getPassword());
+            st.setInt(3, entity.getPoint());
+            st.setInt(4, entity.getLevel());
+        });
+        return true;
     }
 
     @Override
     public boolean delete(User entity) {
-        return false;
+        String sql = "delete from users where id = ?";
+        sqlExecutor.executeProcess(sql, (st) -> {
+            st.setInt(1, entity.getId());
+        });
+        return true;
     }
 
     private User convertUserFromResultSet(ResultSet rs) throws SQLException {

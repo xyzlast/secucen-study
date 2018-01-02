@@ -1,5 +1,6 @@
 package com.xyzlast.bookstore.dao;
 
+import com.xyzlast.bookstore.entity.Book;
 import com.xyzlast.bookstore.entity.User;
 import com.xyzlast.bookstore.util.ConnectionFactory;
 import com.xyzlast.bookstore.util.SqlExecutor;
@@ -48,7 +49,15 @@ public class UserDaoTest {
     public void getById() throws Exception {
         List<User> users = userDao.getAll();
         assertThat(users.size()).isGreaterThan(0);
-
     }
 
+    @Test
+    public void addTest() throws Exception {
+        long preCount = userDao.countAll();
+        User newUser = TestValueGenerator.generateNewUser();
+        userDao.add(newUser);
+        long afterCount = userDao.countAll();
+
+        Assert.assertEquals("하나 더 추가 되었는지?", preCount + 1, afterCount);
+    }
 }

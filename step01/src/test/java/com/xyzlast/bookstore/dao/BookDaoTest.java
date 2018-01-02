@@ -11,6 +11,7 @@ import org.junit.Test;
 import java.util.Date;
 import java.util.List;
 
+import static com.xyzlast.bookstore.dao.TestValueGenerator.generateNewBook;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class BookDaoTest {
@@ -24,22 +25,12 @@ public class BookDaoTest {
         bookDao = new BookDao(new SqlExecutor(connectionFactory));
     }
 
-    private Book generateNewBook() {
-        Book newBook = new Book();
-        newBook.setName("newName01");
-        newBook.setAuthor("newAuthor01");
-        newBook.setComment("newComment01");
-        newBook.setPublishDate(new Date());
-        newBook.setBookStatus(BookStatus.CanRent);
-        newBook.setRentUserId(null);
-        return newBook;
-    }
 
     @Test
     public void getTest() {
         List<Book> allBooks = bookDao.getAll();
         if (allBooks.isEmpty()) {
-            bookDao.add(generateNewBook());
+            bookDao.add(TestValueGenerator.generateNewBook());
             allBooks = bookDao.getAll();
         }
         Book checkBook = allBooks.get(allBooks.size() - 1);
