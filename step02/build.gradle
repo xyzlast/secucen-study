@@ -26,9 +26,11 @@ dependencies {
     compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.16.18'
     compile group: 'org.springframework', name: 'spring-context', version: '5.0.2.RELEASE'
     compile group: 'org.springframework', name: 'spring-jdbc', version: '5.0.2.RELEASE'
+    compile group: 'com.zaxxer', name: 'HikariCP', version: '2.7.4'
 
     testCompile 'junit:junit:4.12'
     testCompile group: 'org.assertj', name: 'assertj-core', version: '3.8.0'
+    testCompile group: 'org.mockito', name: 'mockito-all', version: '1.10.19'
     testCompile group: 'org.springframework', name: 'spring-test', version: '5.0.2.RELEASE'
 
 }
@@ -92,4 +94,4 @@ test {
     ignoreFailures = true
 }
 
-mainClassName = 'App'
+mainClassName = 'com.xyzlast.bookstore.App'
