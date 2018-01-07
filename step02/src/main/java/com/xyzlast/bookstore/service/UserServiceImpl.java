@@ -1,5 +1,6 @@
 package com.xyzlast.bookstore.service;
 
+import com.xyzlast.bookstore.aop.ServiceAopMethod;
 import com.xyzlast.bookstore.dao.BookDao;
 import com.xyzlast.bookstore.dao.HistoryDao;
 import com.xyzlast.bookstore.dao.UserDao;
@@ -31,6 +32,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
+    @ServiceAopMethod
     public boolean rent(int userId, int bookId) {
         User user = userDao.getById(userId);
         Book book = bookDao.getById(bookId);
