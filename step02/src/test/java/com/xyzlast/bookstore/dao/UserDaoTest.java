@@ -1,13 +1,11 @@
 package com.xyzlast.bookstore.dao;
 
-import com.xyzlast.bookstore.entity.Book;
+import com.xyzlast.bookstore.config.BookStoreConfig;
 import com.xyzlast.bookstore.entity.User;
-import com.xyzlast.bookstore.util.ConnectionFactory;
-import com.xyzlast.bookstore.util.SqlExecutor;
 import org.junit.*;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.datasource.lookup.JndiDataSourceLookup;
+import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -21,15 +19,17 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 
 @SuppressWarnings("unused")
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = BookStoreConfig.class)
 public class UserDaoTest {
 
+    @Autowired
+    private ApplicationContext applicationContext;
     private UserDao userDao;
 
     @Before
     public void setUp() {
-        ConnectionFactory connectionFactory = new ConnectionFactory("org.mariadb.jdbc.Driver",
-            "jdbc:mysql://127.0.0.1:4306/bookstore", "root", "qwer12#$");
-        userDao = new UserDao(new SqlExecutor(connectionFactory));
+        userDao = applicationContext.getBean(UserDao.class);
     }
 
     @Test
