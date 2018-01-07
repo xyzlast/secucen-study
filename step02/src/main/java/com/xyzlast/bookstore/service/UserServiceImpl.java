@@ -16,7 +16,7 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
 import java.util.Date;
 import java.util.List;
 
-@Service
+@Service(value = "userServiceImpl")
 public class UserServiceImpl implements UserService {
     private UserDao userDao;
     private BookDao bookDao;

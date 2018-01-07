@@ -47,6 +47,6 @@ public class UserServiceImplTest {
         bookDao.update(book);
 
         assertThat(userService.rent(user.getId(), book.getId())).isTrue();
-//        assertThat(userService).isInstanceOf(UserServiceImpl.class);
+        System.out.println(userService.getClass().getName());
     }
 }

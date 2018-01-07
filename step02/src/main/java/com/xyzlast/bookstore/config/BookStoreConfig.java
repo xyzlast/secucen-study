@@ -1,9 +1,13 @@
 package com.xyzlast.bookstore.config;
 
+import com.xyzlast.bookstore.aop.ServiceMethodInterceptor;
 import com.xyzlast.bookstore.dao.BookDao;
 import com.xyzlast.bookstore.dao.HistoryDao;
 import com.xyzlast.bookstore.dao.UserDao;
 import com.zaxxer.hikari.HikariDataSource;
+import org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator;
+import org.springframework.cglib.proxy.MethodInterceptor;
+import org.springframework.cglib.proxy.MethodProxy;
 import org.springframework.context.annotation.AdviceMode;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -15,6 +19,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
+import java.lang.reflect.Method;
 
 @Configuration
 @ComponentScan(basePackages = {
@@ -22,7 +27,7 @@ import javax.sql.DataSource;
     "com.xyzlast.bookstore.service"
 })
 @EnableTransactionManagement
-    public class BookStoreConfig {
+public class BookStoreConfig {
     @Bean
     public DataSource dataSource() {
         HikariDataSource dataSource = new HikariDataSource();
@@ -43,5 +48,18 @@ import javax.sql.DataSource;
     @Bean
     public PlatformTransactionManager transactionManager() {
         return new DataSourceTransactionManager(dataSource());
+    }
+
+    @Bean
+    public BeanNameAutoProxyCreator beanNameAutoProxyCreator() {
+        BeanNameAutoProxyCreator beanNameAutoProxyCreator = new BeanNameAutoProxyCreator();
+        beanNameAutoProxyCreator.setBeanNames("userServiceImpl");
+        beanNameAutoProxyCreator.setInterceptorNames("methodInterceptor");
+        return beanNameAutoProxyCreator;
+    }
+
+    @Bean(value = "methodInterceptor")
+    public Object methodInterceptor() {
+        return new ServiceMethodInterceptor();
     }
 }
