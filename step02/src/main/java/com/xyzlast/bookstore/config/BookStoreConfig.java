@@ -1,13 +1,12 @@
 package com.xyzlast.bookstore.config;
 
+import com.xyzlast.bookstore.ac.Hello;
 import com.xyzlast.bookstore.aop.ServiceAdvisor;
 import com.xyzlast.bookstore.aop.ServiceMethodAdvice;
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.context.annotation.*;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -61,5 +60,17 @@ public class BookStoreConfig {
     @Bean
     public ServiceAdvisor serviceAdvisor() {
         return new ServiceAdvisor();
+    }
+
+    @Bean(value = "hello")
+    @Scope(value = BeanDefinition.SCOPE_SINGLETON)
+    public Hello hello() {
+        return new Hello();
+    }
+
+    @Bean(value = "hello1")
+    @Scope(value = BeanDefinition.SCOPE_PROTOTYPE)
+    public Hello hello1() {
+        return new Hello();
     }
 }
