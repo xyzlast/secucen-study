@@ -1,25 +1,18 @@
 package com.xyzlast.bookstore.config;
 
-import com.xyzlast.bookstore.aop.ServiceMethodInterceptor;
-import com.xyzlast.bookstore.dao.BookDao;
-import com.xyzlast.bookstore.dao.HistoryDao;
-import com.xyzlast.bookstore.dao.UserDao;
+import com.xyzlast.bookstore.ac.Hello;
+import com.xyzlast.bookstore.aop.ServiceAdvisor;
+import com.xyzlast.bookstore.aop.ServiceMethodAdvice;
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator;
-import org.springframework.cglib.proxy.MethodInterceptor;
-import org.springframework.cglib.proxy.MethodProxy;
-import org.springframework.context.annotation.AdviceMode;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.context.annotation.*;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
-import java.lang.reflect.Method;
 
 @Configuration
 @ComponentScan(basePackages = {
@@ -27,6 +20,7 @@ import java.lang.reflect.Method;
     "com.xyzlast.bookstore.service"
 })
 @EnableTransactionManagement
+@EnableAspectJAutoProxy
 public class BookStoreConfig {
     @Bean
     public DataSource dataSource() {
@@ -59,7 +53,24 @@ public class BookStoreConfig {
     }
 
     @Bean(value = "methodInterceptor")
-    public Object methodInterceptor() {
-        return new ServiceMethodInterceptor();
+    public ServiceMethodAdvice methodInterceptor() {
+        return new ServiceMethodAdvice();
+    }
+
+    @Bean
+    public ServiceAdvisor serviceAdvisor() {
+        return new ServiceAdvisor();
+    }
+
+    @Bean(value = "hello")
+    @Scope(value = BeanDefinition.SCOPE_SINGLETON)
+    public Hello hello() {
+        return new Hello();
+    }
+
+    @Bean(value = "hello1")
+    @Scope(value = BeanDefinition.SCOPE_PROTOTYPE)
+    public Hello hello1() {
+        return new Hello();
     }
 }
