@@ -1,7 +1,7 @@
 package com.xyzlast.bookstore.repository;
 
 import com.xyzlast.bookstore.entity.Book;
-import org.mybatis.spring.SqlSessionTemplate;
+import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -12,8 +12,8 @@ import java.util.List;
 public class BookDaoImpl extends SqlSessionDaoSupport implements BookDao {
 
     @Autowired
-    public BookDaoImpl(SqlSessionTemplate sqlSessionTemplate) {
-        super.setSqlSessionTemplate(sqlSessionTemplate);
+    public BookDaoImpl(SqlSessionFactory sqlSessionFactory) {
+        super.setSqlSessionFactory(sqlSessionFactory);
     }
 
     @Override
@@ -28,7 +28,7 @@ public class BookDaoImpl extends SqlSessionDaoSupport implements BookDao {
 
     @Override
     public Book getById(int id) {
-        return getSqlSession().selectOne("com.xyzlast.bookstore.repository.BookDao.getById", id);
+        return getSqlSession().getMapper(BookDao.class).getById(id);
     }
 
     @Override

@@ -52,9 +52,4 @@ public class BookStoreConfig {
         sqlSessionFactoryBean.setConfigLocation(context.getResource("classpath:mybatis-config.xml"));
         return sqlSessionFactoryBean;
     }
-
-    @Bean
-    public SqlSessionTemplate sqlSessionTemplate() throws Exception {
-        return new SqlSessionTemplate((SqlSessionFactory) sqlSessionFactory().getObject());
-    }
 }
