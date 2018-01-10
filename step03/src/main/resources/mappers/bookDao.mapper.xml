@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xyzlast.bookstore.repository.BookDao">
+    <resultMap id="BookResult" type="com.xyzlast.bookstore.entity.Book">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="author" column="author"/>
+        <result property="publishDate" column="publishDate"/>
+        <result property="rentUserId" column="rentUserId"/>
+        <result property="bookStatus" column="status" typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler"/>
+    </resultMap>
+
+    <select id="getById" parameterType="int" resultMap="BookResult">
+        SELECT * FROM books WHERE id = #{bookId}
+    </select>
+    <select id="getAll" resultMap="BookResult">
+        SELECT * FROM books
+    </select>
+    <select id="countAll" resultType="int">
+        SELECT count(*) FROM books
+    </select>
+    <insert id="add" parameterType="com.xyzlast.bookstore.entity.Book" useGeneratedKeys="true" keyColumn="id">
+        INSERT INTO books(name, author, publishDate, comment, status, rentUserId)
+        VALUES(#{name}, #{author}, #{publishDate}, #{comment}, #{bookStatus.value}, #{rentUserId})
+    </insert>
+    <delete id="delete" parameterType="int">
+        DELETE FROM books WHERE id = #{bookId}
+    </delete>
+    <delete id="deleteAll">
+        DELETE FROM books
+    </delete>
+    <update id="update" parameterType="com.xyzlast.bookstore.entity.Book">
+        UPDATE books SET
+        name = #{name}, author = #{author}, publishDate=#{publishDate}, status=#{bookStatus.value}, rentUserId=#{rentUserId}, comment = #{comment}
+        WHERE id = #{id}
+    </update>
+</mapper>
