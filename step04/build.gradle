@@ -20,11 +20,19 @@ repositories {
 }
 
 dependencies {
-    compile 'com.google.guava:guava:23.0'
-    compile group: 'org.mariadb.jdbc', name: 'mariadb-java-client', version: '2.2.0'
     compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.16.18'
+
+    compile 'com.google.guava:guava:23.0'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.3'
+    compile group: 'org.mariadb.jdbc', name: 'mariadb-java-client', version: '2.2.0'
+    compile group: 'org.hibernate', name: 'hibernate-core', version: '5.2.12.Final'
+    compile group: 'com.zaxxer', name: 'HikariCP', version: '2.7.4'
+    compile group: 'org.springframework', name: 'spring-context', version: '5.0.2.RELEASE'
+    compile group: 'org.springframework', name: 'spring-orm', version: '5.0.2.RELEASE'
+
     testCompile 'junit:junit:4.12'
     testCompile 'org.assertj:assertj-core:3.8.0'
+    testCompile group: 'org.springframework', name: 'spring-test', version: '5.0.2.RELEASE'
 }
 
 // Define the main class for the application
