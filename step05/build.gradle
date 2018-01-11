@@ -29,12 +29,35 @@ dependencies {
     compile group: 'com.zaxxer', name: 'HikariCP', version: '2.7.4'
     compile group: 'org.springframework', name: 'spring-context', version: '5.0.2.RELEASE'
     compile group: 'org.springframework', name: 'spring-orm', version: '5.0.2.RELEASE'
+    compile group: 'com.querydsl', name: 'querydsl-apt', version: '4.1.4'
+    compile group: 'com.querydsl', name: 'querydsl-jpa', version: '4.1.4'
 
     testCompile 'junit:junit:4.12'
     testCompile 'org.assertj:assertj-core:3.8.0'
     testCompile group: 'org.springframework', name: 'spring-test', version: '5.0.2.RELEASE'
 }
 
+sourceSets {
+    main {
+        java {
+            srcDirs 'src/main/java', 'src/main/generated'
+        }
+    }
+}
+
+task generateQueryDSL(type: JavaCompile, group: 'build', description: 'Generates the QueryDSL query types') {
+    file(new File(projectDir, "/src/main/generated")).deleteDir()
+    file(new File(projectDir, "/src/main/generated")).mkdirs()
+    source = sourceSets.main.java
+    classpath = configurations.compile + configurations.compileOnly
+    options.compilerArgs = [
+            "-proc:only",
+            "-processor", "com.querydsl.apt.jpa.JPAAnnotationProcessor"
+    ]
+    destinationDir = file('src/main/generated')
+}
+
 // Define the main class for the application
 mainClassName = 'App'
+
 
