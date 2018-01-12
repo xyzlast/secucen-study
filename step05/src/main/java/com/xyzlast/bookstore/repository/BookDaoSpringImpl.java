@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository
+//@Repository
 public class BookDaoSpringImpl implements BookDao {
     private final SessionFactory sessionFactory;
 
@@ -27,7 +27,8 @@ public class BookDaoSpringImpl implements BookDao {
     @Override
     public List<Book> getAll() {
         Session session = sessionFactory.getCurrentSession();
-        return session.createQuery("from Book", Book.class).list();
+//        return session.createQuery("from Book", Book.class).list();
+        return null;
     }
 
     @Override
@@ -51,13 +52,18 @@ public class BookDaoSpringImpl implements BookDao {
     }
 
     @Override
-    public int delete(int bookId) {
-        Session session = sessionFactory.getCurrentSession();
-        Book book = new Book();
-        book.setId(bookId);
-        session.delete(book);
-        return 1;
+    public int delete(Book book) {
+        return 0;
     }
+
+//    @Override
+//    public int delete(int bookId) {
+//        Session session = sessionFactory.getCurrentSession();
+//        Book book = new Book();
+//        book.setId(bookId);
+//        session.delete(book);
+//        return 1;
+//    }
 
     @Override
     public void deleteAll() {
