@@ -12,6 +12,8 @@ apply plugin: 'java'
 // Apply the application plugin to add support for building an application
 apply plugin: 'application'
 
+apply plugin: 'war'
+
 // In this section you declare where to find the dependencies of your project
 repositories {
     // Use jcenter for resolving your dependencies.
@@ -26,8 +28,8 @@ dependencies {
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.3'
     compile group: 'org.mariadb.jdbc', name: 'mariadb-java-client', version: '2.2.0'
     compile group: 'org.hibernate', name: 'hibernate-core', version: '5.2.12.Final'
-    compile group: 'org.hibernate', name: 'hibernate-entitymanager', version: '5.2.12.Final'
     compile group: 'org.hibernate.javax.persistence', name: 'hibernate-jpa-2.1-api', version: '1.0.0.Final'
+    compile group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-hibernate5', version: '2.9.3'
 
     compile group: 'com.zaxxer', name: 'HikariCP', version: '2.7.4'
     compile group: 'org.springframework', name: 'spring-context', version: '5.0.2.RELEASE'

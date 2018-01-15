@@ -15,10 +15,10 @@ public class History {
     @GeneratedValue
     @Column(name = "id")
     private int id;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "bookId")
     private Book book;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId")
     private User user;
     @Enumerated(EnumType.ORDINAL)

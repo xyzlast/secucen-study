@@ -25,7 +25,8 @@ import java.util.Properties;
 
 @Configuration
 @ComponentScan(value = {
-    "com.xyzlast.bookstore.repository"
+    "com.xyzlast.bookstore.repository",
+    "com.xyzlast.bookstore.service"
 })
 @EnableTransactionManagement
 @EnableJpaRepositories(basePackages = {
