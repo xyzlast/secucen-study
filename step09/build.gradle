@@ -1,0 +1,21 @@
+apply plugin: 'java'
+apply plugin: 'war'
+apply from: 'https://raw.github.com/akhikhl/gretty/master/pluginScripts/gretty.plugin'
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile 'com.google.guava:guava:23.0'
+    providedCompile group: 'javax.servlet', name: 'javax.servlet-api', version: '4.0.0'
+    compile group: 'org.springframework', name: 'spring-webmvc', version: '5.0.2.RELEASE'
+
+	testCompile group: 'org.springframework', name: 'spring-test', version: '5.0.2.RELEASE'
+    testCompile 'junit:junit:4.12'
+    testCompile group: 'org.assertj', name: 'assertj-core', version: '3.9.0'
+}
+
+gretty {
+	contextPath = '/'
+}
