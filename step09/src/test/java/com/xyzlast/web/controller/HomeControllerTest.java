@@ -1,5 +1,6 @@
 package com.xyzlast.web.controller;
 
+import com.xyzlast.web.config.RootConfiguration;
 import org.junit.*;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,10 +22,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 
 @SuppressWarnings("unused")
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration({
-    "file:src/main/webapp/WEB-INF/applicationContext.xml",
-    "file:src/main/webapp/WEB-INF/spring-servlet.xml"
-})
+//@ContextConfiguration({
+//    "file:src/main/webapp/WEB-INF/applicationContext.xml",
+//    "file:src/main/webapp/WEB-INF/spring-servlet.xml"
+//})
+@ContextConfiguration(classes = RootConfiguration.class)
 @WebAppConfiguration
 public class HomeControllerTest {
     @Autowired
@@ -38,7 +40,7 @@ public class HomeControllerTest {
 
     @Test
     public void helloWithoutNameTest() throws Exception {
-        MvcResult mvcResult = mockMvc.perform(get("/hello.do"))
+        MvcResult mvcResult = mockMvc.perform(get("/hello"))
                                      .andExpect(status().isOk())
                                      .andReturn();
         ModelAndView modelAndView = mvcResult.getModelAndView();
