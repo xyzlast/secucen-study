@@ -15,7 +15,7 @@ public class BookServiceConfiguration {
     public ConnectionFactory connectionFactory() {
         ConnectionFactory connectionFactory = new ConnectionFactory("org.mariadb.jdbc.Driver",
             "jdbc:mysql://127.0.0.1:4306/bookstore", "root", "qwer12#$");
-        return  connectionFactory;
+        return connectionFactory;
     }
 
     @Bean
@@ -33,7 +33,7 @@ public class BookServiceConfiguration {
     public ConnectionFactory connectionFactoryWithSingleton() {
         ConnectionFactory connectionFactory = new ConnectionFactory("org.mariadb.jdbc.Driver",
             "jdbc:mysql://127.0.0.1:4306/bookstore", "root", "qwer12#$");
-        return  connectionFactory;
+        return connectionFactory;
     }
 
     @Bean
@@ -41,6 +41,6 @@ public class BookServiceConfiguration {
     public ConnectionFactory connectionFactoryWithProxy() {
         ConnectionFactory connectionFactory = new ConnectionFactory("org.mariadb.jdbc.Driver",
             "jdbc:mysql://127.0.0.1:4306/bookstore", "root", "qwer12#$");
-        return  connectionFactory;
+        return connectionFactory;
     }
 }

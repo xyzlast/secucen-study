@@ -41,7 +41,9 @@ public class HomeControllerTest {
     @Test
     public void helloWithoutNameTest() throws Exception {
         MvcResult mvcResult = mockMvc.perform(get("/hello"))
+                                     .andDo(print())
                                      .andExpect(status().isOk())
+                                     .andExpect(model().attributeExists("message"))
                                      .andReturn();
         ModelAndView modelAndView = mvcResult.getModelAndView();
         assertThat(modelAndView.getViewName()).isEqualTo("hello");

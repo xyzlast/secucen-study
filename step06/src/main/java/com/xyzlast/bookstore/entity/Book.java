@@ -1,5 +1,6 @@
 package com.xyzlast.bookstore.entity;
 
+import com.xyzlast.bookstore.persistence.BookStatusEnumConverter;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,7 +25,8 @@ public class Book {
     private String author;
     @Column(name = "publishDate", nullable = false)
     private Date publishDate;
-    @Enumerated(EnumType.ORDINAL)
+
+    @Convert(converter = BookStatusEnumConverter.class)
     @Column(name = "status", nullable = false)
     private BookStatus bookStatus;
     @ManyToOne
