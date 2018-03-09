@@ -29,9 +29,11 @@ dependencies {
     compile group: 'com.zaxxer', name: 'HikariCP', version: '2.7.4'
     compile group: 'org.springframework', name: 'spring-context', version: '5.0.2.RELEASE'
     compile group: 'org.springframework', name: 'spring-orm', version: '5.0.2.RELEASE'
+    compile group: 'commons-dbcp', name: 'commons-dbcp', version: '1.4'
 
     testCompile 'junit:junit:4.12'
     testCompile 'org.assertj:assertj-core:3.8.0'
+    testCompile group: 'org.mockito', name: 'mockito-core', version: '2.15.0'
     testCompile group: 'org.springframework', name: 'spring-test', version: '5.0.2.RELEASE'
 }
 

@@ -5,6 +5,10 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Projections;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaDelete;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.List;
 
 public class BookDaoImpl implements BookDao {
@@ -18,7 +22,10 @@ public class BookDaoImpl implements BookDao {
     @Override
     public int countAll() {
         try (Session session = sessionFactory.openSession()) {
-            return ((Long) session.createCriteria(Book.class).setProjection(Projections.rowCount()).uniqueResult()).intValue();
+            CriteriaBuilder builder = session.getCriteriaBuilder();
+            CriteriaQuery<Long> query = builder.createQuery(Long.class);
+            query.select(builder.count(query.from(Book.class)));
+            return session.createQuery(query).getSingleResult().intValue();
         }
     }
 
@@ -56,17 +63,20 @@ public class BookDaoImpl implements BookDao {
     }
 
     @Override
-    public int delete(int bookId) {
+    public int delete(Book book) {
         try (Session session = sessionFactory.openSession()) {
-            Book deleteBook = new Book();
-            deleteBook.setId(bookId);
-            session.delete(deleteBook);
+            session.delete(book);
             return 1;
         }
     }
 
     @Override
     public void deleteAll() {
-
+        try (Session session = sessionFactory.openSession()) {
+            CriteriaBuilder builder = session.getCriteriaBuilder();
+            CriteriaDelete<Book> query = builder.createCriteriaDelete(Book.class);
+            query.from(Book.class);
+            session.createQuery(query);
+        }
     }
 }

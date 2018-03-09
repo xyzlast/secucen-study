@@ -58,7 +58,7 @@ public class BookDaoSpringImplTest {
             allBooks = bookDao.getAll();
         }
         Book checkBook = allBooks.get(allBooks.size() - 1);
-        bookDao.delete(checkBook.getId());
+        bookDao.delete(checkBook);
         Book deletedBook = bookDao.getById(checkBook.getId());
         Assert.assertNull(deletedBook);
     }

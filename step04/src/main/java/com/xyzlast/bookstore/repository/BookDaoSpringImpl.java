@@ -7,6 +7,8 @@ import org.hibernate.criterion.Projections;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
 import java.util.List;
 
 @Repository
@@ -21,7 +23,10 @@ public class BookDaoSpringImpl implements BookDao {
     @Override
     public int countAll() {
         Session session = sessionFactory.getCurrentSession();
-        return ((Long) session.createCriteria(Book.class).setProjection(Projections.rowCount()).uniqueResult()).intValue();
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<Long> query = builder.createQuery(Long.class);
+        query.select(builder.count(query.from(Book.class)));
+        return session.createQuery(query).getSingleResult().intValue();
     }
 
     @Override
@@ -51,10 +56,8 @@ public class BookDaoSpringImpl implements BookDao {
     }
 
     @Override
-    public int delete(int bookId) {
+    public int delete(Book book) {
         Session session = sessionFactory.getCurrentSession();
-        Book book = new Book();
-        book.setId(bookId);
         session.delete(book);
         return 1;
     }

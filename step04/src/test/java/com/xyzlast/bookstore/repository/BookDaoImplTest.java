@@ -47,7 +47,7 @@ public class BookDaoImplTest {
     public void countAll() {
         BookDao bookDao = new BookDaoImpl(sessionFactory);
         int count = bookDao.countAll();
-        assertThat(count).isGreaterThan(0);
+        assertThat(count).isGreaterThanOrEqualTo(0);
     }
 
     @Test
@@ -59,5 +59,13 @@ public class BookDaoImplTest {
         User rentUser = afterBook.getRentUser();
         System.out.println("BookName : " + afterBook.getName());
         System.out.println("UserName : " + rentUser.getName());
+    }
+
+    @Test
+    public void deleteAll() throws Exception {
+        BookDao bookDao = new BookDaoImpl(sessionFactory);
+        bookDao.deleteAll();
+        int count = bookDao.countAll();
+        assertThat(count).isEqualTo(0);
     }
 }
