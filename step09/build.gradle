@@ -3,6 +3,7 @@ apply plugin: 'war'
 apply from: 'https://raw.github.com/akhikhl/gretty/master/pluginScripts/gretty.plugin'
 
 repositories {
+    mavenLocal()
     jcenter()
 }
 
@@ -27,6 +28,9 @@ dependencies {
 
     compile group: 'com.lowagie', name: 'itext', version: '2.1.7'
     compile group: 'com.itextpdf', name: 'itextpdf', version: '5.5.12'
+    compile 'com.lowagie:itextasian:1.0'
+
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.4'
 
     testCompile group: 'org.springframework', name: 'spring-test', version: '5.0.2.RELEASE'
     testCompile 'junit:junit:4.12'

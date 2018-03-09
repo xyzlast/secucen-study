@@ -1,5 +1,7 @@
 package com.xyzlast.bookstore.entity;
 
+import com.xyzlast.bookstore.repository.BookDao;
+import com.xyzlast.bookstore.repository.UserDao;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -26,4 +28,10 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<History> histories;
 
+    public void rentBook(Book book, int incrementPoint, BookDao bookDao, UserDao userDao) {
+        book.setRentUser(this);
+        this.setPoint(this.getPoint() + incrementPoint);
+        bookDao.update(book);
+        userDao.update(this);
+    }
 }

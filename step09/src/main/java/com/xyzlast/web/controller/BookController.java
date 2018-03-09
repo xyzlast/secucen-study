@@ -6,10 +6,7 @@ import com.xyzlast.web.view.BookListITextPdfView;
 import com.xyzlast.web.vo.Book;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
@@ -60,6 +57,13 @@ public class BookController {
         modelAndView.setView(this.bookListExcelView);
         modelAndView.addObject("books", books);
         return modelAndView;
+    }
+
+    @GetMapping(value = "/book/json")
+    @ResponseBody
+    public Object getBookJson() {
+        List<Book> books = getBooks();
+        return books;
     }
 
     private String getRandomBookStatus() {

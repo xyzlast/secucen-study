@@ -2,7 +2,9 @@ package com.xyzlast.web.view;
 
 import com.lowagie.text.Chapter;
 import com.lowagie.text.Document;
+import com.lowagie.text.Font;
 import com.lowagie.text.Paragraph;
+import com.lowagie.text.pdf.BaseFont;
 import com.lowagie.text.pdf.PdfWriter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.view.document.AbstractPdfView;
@@ -17,8 +19,10 @@ public class BookListITextPdfView extends AbstractPdfView {
     protected void buildPdfDocument(Map<String, Object> model, Document document, PdfWriter writer,
                                     HttpServletRequest request, HttpServletResponse response) throws Exception {
         setFileNameToResponse(request, response, "bookList.pdf");
+        BaseFont objBaseFont = BaseFont.createFont("HYGoThic-Medium", "UniKS-UCS2-H", false);
+        Font objFont = new Font(objBaseFont, 12);
         Chapter chapter = new Chapter(new Paragraph("this is english"), 1);
-        chapter.add(new Paragraph("이건 메세지입니다."));
+        chapter.add(new Paragraph("이건 메세지입니다.", objFont));
         document.add(chapter);
     }
 

@@ -1,5 +1,6 @@
 package com.xyzlast.web.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -33,6 +34,11 @@ public class RootConfiguration implements WebMvcConfigurer {
         internalResourceViewResolver.setViewClass(JstlView.class);
         return internalResourceViewResolver;
     }
+
+//    @Bean
+//    public ObjectMapper objectMapper() {
+//        return new ObjectMapper();
+//    }
 
 //    @Bean(name = "freemarkerConfig")
 //    public FreeMarkerConfigurer freemarkerConfig() {

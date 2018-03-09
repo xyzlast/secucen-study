@@ -15,6 +15,11 @@ import java.util.Map;
 @Component
 public class BookListIText5PdfView extends AbstractIText5PdfView {
     @Override
+    protected void buildPdfMetadata(Map<String, Object> model, Document document, HttpServletRequest request) {
+        //PDF의 meta data 생성
+    }
+
+    @Override
     protected void buildPdfDocument(Map<String, Object> model, Document document, PdfWriter writer,
                                     HttpServletRequest request, HttpServletResponse response) throws Exception {
         String fileName = createFileName();

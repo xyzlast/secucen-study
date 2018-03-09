@@ -28,6 +28,7 @@ public class BookDaoTest {
         sqlSession = sqlSessionFactory.openSession();
         bookDao = sqlSession.getMapper(BookDao.class);
     }
+
     @After
     public void tearDown() {
         if (sqlSession != null) {
@@ -50,6 +51,7 @@ public class BookDaoTest {
 
     @Test
     public void addTest() throws Exception {
+
         long preCount = bookDao.countAll();
         Book newBook = TestValueGenerator.generateNewBook();
         bookDao.add(newBook);

@@ -16,6 +16,9 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 import static org.assertj.core.api.Assertions.*;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -47,6 +50,14 @@ public class BookControllerTest {
     }
 
     @Test
+    public void getBookJson() throws Exception {
+        MvcResult mvcResult = mockMvc.perform(get("/book/json"))
+            .andDo(print())
+            .andExpect(status().isOk())
+            .andReturn();
+    }
+
+    @Test
     public void getBookExcel() throws Exception {
         MvcResult mvcResult = mockMvc.perform(get("/book/excel"))
             .andExpect(status().isOk())
@@ -64,6 +75,7 @@ public class BookControllerTest {
             .andDo(MockMvcResultHandlers.print())
             .andReturn();
         assertThat(mvcResult.getModelAndView().getView()).isNotNull().isInstanceOf(BookListITextPdfView.class);
+        Files.write(Paths.get("sample.pdf"), mvcResult.getResponse().getContentAsByteArray());
     }
 
     @Test
@@ -74,5 +86,7 @@ public class BookControllerTest {
             .andDo(MockMvcResultHandlers.print())
             .andReturn();
         assertThat(mvcResult.getModelAndView().getView()).isNotNull().isInstanceOf(BookListIText5PdfView.class);
+        Files.write(Paths.get("sample.pdf"), mvcResult.getResponse().getContentAsByteArray());
+
     }
 }

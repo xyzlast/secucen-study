@@ -1,5 +1,6 @@
 package com.xyzlast.bookstore.entity;
 
+import com.xyzlast.bookstore.repository.HistoryRepository;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -26,4 +27,23 @@ public class History {
     private HistoryActionType actionType;
     @Column(name = "insertDate")
     private Date date;
+
+    public History() {
+
+    }
+
+    public History(User user, Book book, HistoryActionType actionType) {
+        this.user = user;
+        this.book = book;
+        this.actionType = actionType;
+    }
+
+    @PrePersist
+    public void onPrePersist() {
+        date = new Date();
+    }
+
+    public void save(HistoryRepository historyRepository) {
+        historyRepository.save(this);
+    }
 }

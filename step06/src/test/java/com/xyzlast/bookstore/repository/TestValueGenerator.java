@@ -1,5 +1,6 @@
 package com.xyzlast.bookstore.repository;
 
+import com.xyzlast.bookstore.constant.UserLevel;
 import com.xyzlast.bookstore.entity.Book;
 import com.xyzlast.bookstore.entity.BookStatus;
 import com.xyzlast.bookstore.entity.User;
@@ -24,7 +25,7 @@ public class TestValueGenerator {
         user.setName("newUserName01");
         user.setPassword("newUserrd");
         user.setPoint(100);
-        user.setLevel(1);
+        user.setLevel(UserLevel.VIP);
         return user;
     }
 
